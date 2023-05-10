@@ -45,10 +45,17 @@ namespace Computer_service_API.Controllers
                 if (page * 10 > _context.Employees.Count()) return NoContent();
                 List<Employee> acs = new List<Employee>();
 
-                for (int i = (int)(page * 10); i < _context.Employees.Count(); i++)
+                for (int i = (int)(page * 10); i < page*10+10; i++)
                 {
-                    if (_context.Employees.ToArray()[i].Deleted == false)
-                        acs.Add(_context.Employees.ToArray()[i]);
+                    try
+                    {
+                        if (_context.Employees.ToArray()[i].Deleted == false)
+                            acs.Add(_context.Employees.ToArray()[i]);
+                    }
+                    catch
+                    {
+                        break;
+                    }
                 }
                 return acs;
             }

@@ -23,20 +23,52 @@ namespace Computer_service_API.Controllers
         }
         //GET: /api/Orders/filtered/Type1
         [HttpGet("filtered/{type}")]
-        public async Task<IActionResult> FilteredOrders(string type)
+        public IActionResult FilteredOrders(string type)
         {
             if (_context.Orders == null) return NotFound();
 
             List<Order> filtered = new List<Order>();
             foreach (var ord in _context.Orders)
             {
-                if(ord.Type == type) filtered.Add(ord);
+                if (ord.Type == type) filtered.Add(ord);
             }
 
-            return Ok(new {
+            return Ok(new
+            {
                 Count = filtered.Count,
                 Orders = filtered
             });
+        }
+
+        [HttpGet("search/{user}")]
+        public IActionResult SearchByUser(string user, int page)
+        {
+            if (_context.Orders == null) return NotFound();
+
+            List<Order> found = new List<Order>();
+            foreach (var ord in _context.Orders)
+            {
+                if (ord.Client == user) found.Add(ord);
+            }
+
+            if (found.Count > 10)
+            {
+                List<Order> paged = new List<Order>();
+                for (int i = page * 10; i < page * 10 + 10; i++)
+                {
+                    try
+                    {
+                        paged.Add(found[i]);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+                return Ok(paged);
+            }
+            return Ok(found);
+
         }
 
         // GET: api/Orders
@@ -55,9 +87,13 @@ namespace Computer_service_API.Controllers
                 if (page * 10 > _context.Orders.Count()) return NoContent();
                 List<Order> acs = new List<Order>();
 
-                for (int i = (int)(page * 10); i < _context.Orders.Count(); i++)
+                for (int i = (int)(page * 10); i < page * 10 + 10; i++)
                 {
-                    acs.Add(_context.Orders.ToArray()[i]);
+                    try
+                    {
+                        acs.Add(_context.Orders.ToArray()[i]);
+                    }
+                    catch { break; }
                 }
                 return acs;
             }

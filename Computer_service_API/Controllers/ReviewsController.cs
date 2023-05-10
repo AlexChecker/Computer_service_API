@@ -38,9 +38,13 @@ namespace Computer_service_API.Controllers
                 if (page * 10 > _context.Reviews.Count()) return NoContent();
                 List<Review> acs = new List<Review>();
 
-                for (int i = (int)(page * 10); i < _context.Reviews.Count(); i++)
+                for (int i = (int)(page * 10); i < page * 10 + 10; i++)
                 {
-                    acs.Add(_context.Reviews.ToArray()[i]);
+                    try
+                    {
+                        acs.Add(_context.Reviews.ToArray()[i]);
+                    }
+                    catch { break; }
                 }
                 return acs;
             }

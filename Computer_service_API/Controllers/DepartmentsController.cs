@@ -38,9 +38,13 @@ namespace Computer_service_API.Controllers
                 if (page * 10 > _context.Departments.Count()) return NoContent();
                 List<Department> acs = new List<Department>();
 
-                for (int i = (int)(page * 10); i < _context.Departments.Count(); i++)
+                for (int i = (int)(page * 10); i < page * 10 + 10; i++)
                 {
-                    acs.Add(_context.Departments.ToArray()[i]);
+                    try
+                    {
+                        acs.Add(_context.Departments.ToArray()[i]);
+                    }
+                    catch { break; }
                 }
                 return acs;
             }

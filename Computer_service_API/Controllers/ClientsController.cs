@@ -45,10 +45,17 @@ namespace Computer_service_API.Controllers
                 if (page * 10 > _context.Clients.Count()) return NoContent();
                 List<Client> acs = new List<Client>();
 
-                for (int i = (int)(page * 10); i < _context.Clients.Count(); i++)
+                for (int i = (int)(page * 10); i < page*10+10; i++)
                 {
-                    if (_context.Clients.ToArray()[i].Deleted == false)
-                    acs.Add(_context.Clients.ToArray()[i]);
+                    try
+                    {
+                        if (_context.Clients.ToArray()[i].Deleted == false)
+                            acs.Add(_context.Clients.ToArray()[i]);
+                    }
+                    catch
+                    {
+                        break;
+                    }
                 }
                 return acs;
             }

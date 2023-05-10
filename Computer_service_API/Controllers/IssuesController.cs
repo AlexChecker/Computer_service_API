@@ -38,9 +38,13 @@ namespace Computer_service_API.Controllers
                 if (page * 10 > _context.Issues.Count()) return NoContent();
                 List<Issue> acs = new List<Issue>();
 
-                for (int i = (int)(page * 10); i < _context.Issues.Count(); i++)
+                for (int i = (int)(page * 10); i < page * 10 + 10; i++)
                 {
-                    acs.Add(_context.Issues.ToArray()[i]);
+                    try
+                    {
+                        acs.Add(_context.Issues.ToArray()[i]);
+                    }
+                    catch { break; }
                 }
                 return acs;
             }

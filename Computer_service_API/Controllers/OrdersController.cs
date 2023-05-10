@@ -40,6 +40,25 @@ namespace Computer_service_API.Controllers
             });
         }
 
+        [HttpGet, Authorize(Roles = "Employee"),Route("sorted")]
+        public async Task<IActionResult> sortOrders()
+        {
+            if (_context.Orders == null) return NotFound();
+            List<Order> sorted = new List<Order>();
+            Order min;
+            foreach (var ord in _context.Orders)
+            {
+                min = ord;
+                foreach (var v in _context.Orders) {
+
+                    if (sorted.Contains(v)) continue;
+                    if (v.Price < min.Price) min = v;
+                }
+                sorted.Add(min);
+            }
+            return Ok(sorted);
+        }
+
         [HttpGet("search/{user}"),Authorize]
         public IActionResult SearchByUser(string user, int page)
         {

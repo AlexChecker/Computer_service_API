@@ -61,7 +61,8 @@ namespace Computer_service_API.Controllers
             var empl = await _context.Employees.FirstOrDefaultAsync(p => (p.Login == model.login));
             if (empl != null)
             {
-                return BadRequest("Employee exists!");
+                //Читай "Я - чайник"
+                return StatusCode(418);//BadRequest("Employee exists!");
             }
             var dep = await _context.Departments.FirstOrDefaultAsync(p => (p.DepId == model.department));
             if (dep == null) return BadRequest("No such department");

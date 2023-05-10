@@ -22,7 +22,7 @@ namespace Computer_service_API.Controllers
             _context = context;
         }
         //GET: /api/Orders/filtered/Type1
-        [HttpGet("filtered/{type}")]
+        [HttpGet("filtered/{type}"),Authorize]
         public IActionResult FilteredOrders(string type)
         {
             if (_context.Orders == null) return NotFound();
@@ -40,7 +40,7 @@ namespace Computer_service_API.Controllers
             });
         }
 
-        [HttpGet("search/{user}")]
+        [HttpGet("search/{user}"),Authorize]
         public IActionResult SearchByUser(string user, int page)
         {
             if (_context.Orders == null) return NotFound();
@@ -72,7 +72,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Orders
-        [HttpGet,Authorize]
+        [HttpGet,Authorize(Roles = "Employee")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders(int page)
         {
           if (_context.Orders == null)
@@ -150,7 +150,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Client")]
         public async Task<ActionResult<Order>> PostOrder(Order order)
         {
           if (_context.Orders == null)

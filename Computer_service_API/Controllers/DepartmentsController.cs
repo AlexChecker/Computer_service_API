@@ -23,7 +23,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Departments
-        [HttpGet, Authorize]
+        [HttpGet, Authorize(Roles = "Employee")]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments(int page)
         {
           if (_context.Departments == null)
@@ -51,7 +51,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Departments/5
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{id}"), Authorize(Roles = "Employee")]
         public async Task<ActionResult<Department>> GetDepartment(int? id)
         {
           if (_context.Departments == null)
@@ -70,7 +70,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/Departments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutDepartment(int? id, Department department)
         {
             if (id != department.DepId)
@@ -101,7 +101,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Departments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<Department>> PostDepartment(Department department)
         {
           if (_context.Departments == null)
@@ -115,7 +115,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/Departments/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteDepartment(int? id)
         {
             if (_context.Departments == null)

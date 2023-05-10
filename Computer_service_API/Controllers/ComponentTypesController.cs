@@ -72,7 +72,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/ComponentTypes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutComponentType(int? id, ComponentType componentType)
         {
             if (id != componentType.TypeId)
@@ -103,7 +103,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/ComponentTypes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<ComponentType>> PostComponentType(ComponentType componentType)
         {
           if (_context.ComponentTypes == null)
@@ -117,7 +117,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/ComponentTypes/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteComponentType(int? id)
         {
             if (_context.ComponentTypes == null)

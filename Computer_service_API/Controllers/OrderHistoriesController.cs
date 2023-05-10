@@ -23,7 +23,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/OrderHistories
-        [HttpGet, Authorize]
+        [HttpGet, Authorize(Roles = "Employee")]
         public async Task<ActionResult<IEnumerable<OrderHistory>>> GetOrderHistories(int page)
         {
           if (_context.OrderHistories == null)
@@ -51,7 +51,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/OrderHistories/5
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{id}"), Authorize(Roles = "Employee")]
         public async Task<ActionResult<OrderHistory>> GetOrderHistory(int? id)
         {
           if (_context.OrderHistories == null)
@@ -70,7 +70,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/OrderHistories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutOrderHistory(int? id, OrderHistory orderHistory)
         {
             if (id != orderHistory.HistId)
@@ -101,7 +101,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/OrderHistories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<OrderHistory>> PostOrderHistory(OrderHistory orderHistory)
         {
           if (_context.OrderHistories == null)
@@ -115,7 +115,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/OrderHistories/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteOrderHistory(int? id)
         {
             if (_context.OrderHistories == null)

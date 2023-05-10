@@ -70,7 +70,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/Vacancies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutVacancy(int? id, Vacancy vacancy)
         {
             if (id != vacancy.VacId)
@@ -101,7 +101,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Vacancies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<Vacancy>> PostVacancy(Vacancy vacancy)
         {
           if (_context.Vacancies == null)
@@ -115,7 +115,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/Vacancies/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteVacancy(int? id)
         {
             if (_context.Vacancies == null)

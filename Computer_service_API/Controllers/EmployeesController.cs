@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Computer_service_API.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using System.Runtime.InteropServices;
 
 namespace Computer_service_API.Controllers
 {
@@ -23,7 +25,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Employees
-        [HttpGet]
+        [HttpGet,Authorize(Roles = "Employee")]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees(int page)
         {
           if (_context.Employees == null)
@@ -62,7 +64,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Employees/5
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{id}"), Authorize(Roles = "Employee")]
         public async Task<ActionResult<Employee>> GetEmployee(string id)
         {
           if (_context.Employees == null)
@@ -81,7 +83,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/Employees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutEmployee(string id, Employee employee)
         {
             if (id != employee.ServiceId)
@@ -112,7 +114,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Employees
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
           if (_context.Employees == null)
@@ -140,7 +142,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/Employees/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteEmployee(string id)
         {
             if (_context.Employees == null)
@@ -160,7 +162,7 @@ namespace Computer_service_API.Controllers
             return NoContent();
         }
         
-        [HttpDelete,Route("multiple/delete")]
+        [HttpDelete,Route("multiple/delete"),Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteMultiple(string[] logins)
         {
             foreach (var login in logins)
@@ -172,7 +174,7 @@ namespace Computer_service_API.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-        [HttpPost,Route("multiple/restore")]
+        [HttpPost,Route("multiple/restore"),Authorize(Roles = "Employee")]
         public async Task<IActionResult> RestoreMultiple(string[] logins)
         {
             foreach (var login in logins)
@@ -185,7 +187,7 @@ namespace Computer_service_API.Controllers
             return Ok();
         }
 
-        [HttpPost,Route("restore"), Authorize]
+        [HttpPost,Route("restore"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> RestoreEmployee(string login)
         {
 

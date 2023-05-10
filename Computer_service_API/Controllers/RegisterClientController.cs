@@ -11,6 +11,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Computer_service_API.Controllers
 {
@@ -35,8 +36,29 @@ namespace Computer_service_API.Controllers
                 prf: KeyDerivationPrf.HMACSHA512,
                 iterationCount: 100000,
                 numBytesRequested:512/8
+                
                 ));
 
+        }
+
+        private string genJWTToken(string login)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My absolutely secret key"));
+            var signCr = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+            var descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, login),
+                    new Claim(ClaimTypes.Role, "Client")
+                }),
+                Expires = DateTime.MaxValue,
+                SigningCredentials = signCr
+            };
+            var token = handler.CreateToken(descriptor);
+            return handler.WriteToken(token);
         }
 
         [HttpPost, Route("register")]
@@ -53,18 +75,8 @@ namespace Computer_service_API.Controllers
                 return BadRequest("Invalid data");
             }
 
-            var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My absolutely secret key"));
-            var signCr = new SigningCredentials(secret, SecurityAlgorithms.HmacSha512);
 
-            var options = new JwtSecurityToken(
-                    issuer: model.login,
-                    audience: "https://localhost:7253",
-                    claims: new List<Claim>(),
-                    expires: DateTime.MaxValue,
-                    signingCredentials: signCr
-                );
-
-            var tokenStr = new JwtSecurityTokenHandler().WriteToken(options);
+            var tokenStr = genJWTToken(model.login);
             var newcl = new Client();
             newcl.Deleted = false;
             newcl.Password = saltPassword(model.password);

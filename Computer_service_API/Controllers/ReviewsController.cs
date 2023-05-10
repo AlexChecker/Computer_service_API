@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Computer_service_API.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Computer_service_API.Controllers
 {
@@ -70,7 +71,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/Reviews/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Client")]
         public async Task<IActionResult> PutReview(int? id, Review review)
         {
             if (id != review.RevId)
@@ -101,7 +102,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Client")]
         public async Task<ActionResult<Review>> PostReview(Review review)
         {
           if (_context.Reviews == null)

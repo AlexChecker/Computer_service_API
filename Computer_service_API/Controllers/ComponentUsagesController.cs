@@ -23,7 +23,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/ComponentUsages
-        [HttpGet, Authorize]
+        [HttpGet, Authorize(Roles = "Employee")]
         public async Task<ActionResult<IEnumerable<ComponentUsage>>> GetComponentUsages(int page)
         {
           if (_context.ComponentUsages == null)
@@ -51,7 +51,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/ComponentUsages/5
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{id}"), Authorize(Roles = "Employee")]
         public async Task<ActionResult<ComponentUsage>> GetComponentUsage(int? id)
         {
           if (_context.ComponentUsages == null)
@@ -70,7 +70,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/ComponentUsages/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutComponentUsage(int? id, ComponentUsage componentUsage)
         {
             if (id != componentUsage.UsageId)
@@ -101,7 +101,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/ComponentUsages
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<ComponentUsage>> PostComponentUsage(ComponentUsage componentUsage)
         {
           if (_context.ComponentUsages == null)
@@ -115,7 +115,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/ComponentUsages/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteComponentUsage(int? id)
         {
             if (_context.ComponentUsages == null)

@@ -22,7 +22,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Clients
-        [HttpGet]
+        [HttpGet,Authorize(Roles = "Employee")]
         public async Task<ActionResult<IEnumerable<Client>>> GetClients(int page)
         {
           if (_context.Clients == null)
@@ -114,7 +114,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Clients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<Client>> PostClient(Client client)
         {
           if (_context.Clients == null)
@@ -162,7 +162,7 @@ namespace Computer_service_API.Controllers
             return NoContent();
         }
 
-        [HttpDelete,Route("multiple/delete")]
+        [HttpDelete,Route("multiple/delete"),Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteMultiple(string[] logins)
         {
             foreach (var login in logins)
@@ -175,7 +175,7 @@ namespace Computer_service_API.Controllers
             return Ok();
         }
 
-        [HttpPost,Route("multiple/restore")]
+        [HttpPost,Route("multiple/restore"),Authorize(Roles = "Employee")]
         public async Task<IActionResult> RestoreMultiple(string[] logins)
         {
             foreach (var login in logins)

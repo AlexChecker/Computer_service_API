@@ -22,7 +22,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Acquisitions
-        [HttpGet, Authorize]
+        [HttpGet, Authorize(Roles = "Employee")]
         public async Task<ActionResult<IEnumerable<Acquisition>>> GetAcquisitions(int page)
         {
           if (_context.Acquisitions == null)
@@ -53,7 +53,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Acquisitions/5
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{id}"), Authorize(Roles = "Employee")]
         public async Task<ActionResult<Acquisition>> GetAcquisition(int? id)
         {
           if (_context.Acquisitions == null)
@@ -72,7 +72,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/Acquisitions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutAcquisition(int? id, Acquisition acquisition)
         {
             if (id != acquisition.AcqId)
@@ -103,7 +103,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Acquisitions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<Acquisition>> PostAcquisition(Acquisition acquisition)
         {
           if (_context.Acquisitions == null)
@@ -117,7 +117,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/Acquisitions/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteAcquisition(int? id)
         {
             if (_context.Acquisitions == null)

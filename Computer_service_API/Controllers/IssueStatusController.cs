@@ -70,7 +70,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/IssueStatus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutIssueStatus(int? id, IssueStatus issueStatus)
         {
             if (id != issueStatus.StatusId)
@@ -101,7 +101,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/IssueStatus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<IssueStatus>> PostIssueStatus(IssueStatus issueStatus)
         {
           if (_context.IssueStatuses == null)
@@ -115,7 +115,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/IssueStatus/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteIssueStatus(int? id)
         {
             if (_context.IssueStatuses == null)

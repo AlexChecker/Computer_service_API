@@ -34,6 +34,26 @@ namespace Computer_service_API.Controllers
 
         }
 
+        private string genJWTToken(string login)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My absolutely secret key"));
+            var signCr = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+            var descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, login),
+                    new Claim(ClaimTypes.Role, "Employee")
+                }),
+                Expires = DateTime.MaxValue,
+                SigningCredentials = signCr
+            };
+            var token = handler.CreateToken(descriptor);
+            return handler.WriteToken(token);
+        }
+
         [HttpPost, Route("register")]
 
         public async Task<IActionResult> RegisterEmployee(EmployeeModel model)
@@ -53,18 +73,9 @@ namespace Computer_service_API.Controllers
             employee.SecondName = model.last_name;
             employee.ServiceId = Guid.NewGuid().ToString();
 
-            var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My absolutely secret key"));
-            var signCr = new SigningCredentials(secret, SecurityAlgorithms.HmacSha512);
 
-            var options = new JwtSecurityToken(
-                    issuer: model.login,
-                    audience: "https://localhost:7253",
-                    claims: new List<Claim>(),
-                    expires: DateTime.MaxValue,
-                    signingCredentials: signCr
-                );
 
-            employee.Token = new JwtSecurityTokenHandler().WriteToken(options);
+            employee.Token = genJWTToken(employee.Login);
             employee.Deleted = false;
 
             _context.Employees.Add(employee);

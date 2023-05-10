@@ -70,7 +70,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/Issues/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutIssue(int? id, Issue issue)
         {
             if (id != issue.IssId)
@@ -101,7 +101,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Issues
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Client")]
         public async Task<ActionResult<Issue>> PostIssue(Issue issue)
         {
           if (_context.Issues == null)

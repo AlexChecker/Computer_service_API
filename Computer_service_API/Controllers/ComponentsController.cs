@@ -72,7 +72,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/Components/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> PutComponent(string id, Component component)
         {
             if (id != component.ArticleNum)
@@ -103,7 +103,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Components
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Roles = "Employee")]
         public async Task<ActionResult<Component>> PostComponent(Component component)
         {
           if (_context.Components == null)
@@ -131,7 +131,7 @@ namespace Computer_service_API.Controllers
         }
 
         // DELETE: api/Components/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Employee")]
         public async Task<IActionResult> DeleteComponent(string id)
         {
             if (_context.Components == null)

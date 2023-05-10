@@ -22,7 +22,7 @@ namespace Computer_service_API.Controllers
         }
 
         // GET: api/Clients
-        [HttpGet, Authorize]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Client>>> GetClients(int page)
         {
           if (_context.Clients == null)
@@ -155,6 +155,32 @@ namespace Computer_service_API.Controllers
             return NoContent();
         }
 
+        [HttpDelete,Route("multiple/delete")]
+        public async Task<IActionResult> DeleteMultiple(string[] logins)
+        {
+            foreach (var login in logins)
+            {
+                var user = await _context.Clients.FirstOrDefaultAsync(p => (p.Login == login));
+                if (user != null) user.Deleted = true;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost,Route("multiple/restore")]
+        public async Task<IActionResult> RestoreMultiple(string[] logins)
+        {
+            foreach (var login in logins)
+            {
+                var user = await _context.Clients.FirstOrDefaultAsync(p => (p.Login == login));
+                if (user != null) user.Deleted = false;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+        
         [HttpPost, Route("restore"), Authorize]
         public async Task<IActionResult> RestoreClient(string login)
         {

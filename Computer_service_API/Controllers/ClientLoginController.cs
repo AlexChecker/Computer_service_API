@@ -44,7 +44,7 @@ namespace Computer_service_API.Controllers
             {
                 return BadRequest("Invalid data");
             }
-            return Ok(client.Token);
+            return Ok(new { Token = client.Token});
         }
     }
 }

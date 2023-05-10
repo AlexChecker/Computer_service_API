@@ -80,7 +80,7 @@ namespace Computer_service_API.Controllers
             if (model == null) return BadRequest();
             Employee employee = await _context.Employees.FirstOrDefaultAsync(p => (p.Login == model.login) && (p.Password == saltPassword(model.password)));
             if (employee == null) return BadRequest();
-            return employee.Token;
+            return Ok(new {Token = employee.Token});
         }
     }
 }

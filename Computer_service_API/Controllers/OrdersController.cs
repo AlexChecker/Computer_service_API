@@ -21,6 +21,23 @@ namespace Computer_service_API.Controllers
         {
             _context = context;
         }
+        //GET: /api/Orders/filtered/Type1
+        [HttpGet("filtered/{type}")]
+        public async Task<IActionResult> FilteredOrders(string type)
+        {
+            if (_context.Orders == null) return NotFound();
+
+            List<Order> filtered = new List<Order>();
+            foreach (var ord in _context.Orders)
+            {
+                if(ord.Type == type) filtered.Add(ord);
+            }
+
+            return Ok(new {
+                Count = filtered.Count,
+                Orders = filtered
+            });
+        }
 
         // GET: api/Orders
         [HttpGet,Authorize]

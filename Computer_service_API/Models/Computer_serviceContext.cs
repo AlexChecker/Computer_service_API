@@ -78,12 +78,12 @@ namespace Computer_service_API.Models
                 entity.Property(e => e.Deleted).HasColumnName("deleted");
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(30)
+                    .HasMaxLength(150)
                     .IsUnicode(false)
                     .HasColumnName("password");
 
                 entity.Property(e => e.Token)
-                    .HasMaxLength(200)
+                    .HasMaxLength(250)
                     .IsUnicode(false)
                     .HasColumnName("token")
                     .HasDefaultValueSql("('invalid_key')");
@@ -197,7 +197,7 @@ namespace Computer_service_API.Models
                     .HasColumnName("login");
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(30)
+                    .HasMaxLength(150)
                     .IsUnicode(false)
                     .HasColumnName("password");
 
@@ -207,7 +207,7 @@ namespace Computer_service_API.Models
                     .HasColumnName("second_name");
 
                 entity.Property(e => e.Token)
-                    .HasMaxLength(200)
+                    .HasMaxLength(250)
                     .IsUnicode(false)
                     .HasColumnName("token")
                     .HasDefaultValueSql("('invalid_key')");

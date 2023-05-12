@@ -95,7 +95,7 @@ namespace Computer_service_API.Controllers
 
         }
 
-        [HttpPost, Route("login")]
+        [HttpGet, Route("login")]
         public async Task<ActionResult<string>> LogInEmployee(RegisterClientModel model)
         {
             if (model == null) return BadRequest();

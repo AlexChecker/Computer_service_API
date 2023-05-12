@@ -101,7 +101,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Issues
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize(Roles = "Client")]
+        [HttpPost, Authorize]
         public async Task<ActionResult<Issue>> PostIssue(Issue issue)
         {
           if (_context.Issues == null)

@@ -169,7 +169,7 @@ namespace Computer_service_API.Controllers
 
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost, Authorize(Roles = "Client")]
+        [HttpPost, Authorize]
         public async Task<ActionResult<Order>> PostOrder(Order order)
         {
           if (_context.Orders == null)

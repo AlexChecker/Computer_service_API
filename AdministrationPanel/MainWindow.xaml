@@ -1,0 +1,16 @@
+﻿<Window x:Class="AdministrationPanel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdministrationPanel"
+        mc:Ignorable="d"
+        Title="Вход" Height="139" Width="221">
+    <Grid>
+        <Label Content="Логин" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="Пароль" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
+        <PasswordBox Name="passwordBox"  HorizontalAlignment="Left" Margin="66,44,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="loginBox" HorizontalAlignment="Left" Margin="66,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Войти!" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="176" Click="Button_Click"/>
+    </Grid>
+</Window>

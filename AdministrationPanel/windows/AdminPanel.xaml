@@ -1,0 +1,31 @@
+﻿<Window x:Class="AdministrationPanel.windows.AdminPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdministrationPanel.windows"
+        mc:Ignorable="d"
+        Title="AdminPanel" Height="450" Width="800">
+    <Grid>
+        <GroupBox Header="Таблицы" Margin="0,0,381,261">
+            <Grid>
+                <Button Content="Закупки" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="167" Click="Button_Click"/>
+                <Button Content="Клиенты" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="167" Click="Button_Click"/>
+                <Button Content="Компоненты" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="167" Click="Button_Click"/>
+                <Button Content="Типы компонентов" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="167" Click="Button_Click"/>
+                <Button Content="Использование компонентов" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Content="История заказов" HorizontalAlignment="Left" Margin="287,10,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Content="Статусы заказа" HorizontalAlignment="Left" Margin="287,35,0,0" VerticalAlignment="Top" Width="96" Click="Button_Click"/>
+                <Button Content="Типы заказов" HorizontalAlignment="Left" Margin="287,60,0,0" VerticalAlignment="Top" Width="96" Click="Button_Click"/>
+                <Button Content="Отзывы" HorizontalAlignment="Left" Margin="288,85,0,0" VerticalAlignment="Top" Width="95" Click="Button_Click"/>
+                <Button Content="Заказы" HorizontalAlignment="Left" Margin="182,110,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
+                <Button Content="Вакансии" HorizontalAlignment="Left" Margin="288,110,0,0" VerticalAlignment="Top" Width="95" Click="Button_Click"/>
+                <Button Content="Отделы" HorizontalAlignment="Left" Margin="182,10,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
+                <Button Content="Сотрудники" HorizontalAlignment="Left" Margin="182,35,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
+                <Button Content="Проблемы" HorizontalAlignment="Left" Margin="182,60,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
+                <Button Content="Статусы проблем" HorizontalAlignment="Left" Margin="182,85,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</Window>

@@ -71,7 +71,7 @@ namespace Computer_service_API.Controllers
 
         // PUT: api/Reviews/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize(Roles = "Client")]
+        [HttpPut("{id}"), Authorize]
         public async Task<IActionResult> PutReview(int? id, Review review)
         {
             if (id != review.RevId)

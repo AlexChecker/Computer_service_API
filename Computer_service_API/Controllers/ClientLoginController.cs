@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace Computer_service_API.Controllers
@@ -21,6 +24,8 @@ namespace Computer_service_API.Controllers
         }
         private string saltPassword(string password)
         {
+
+
             return Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: Encoding.UTF8.GetBytes(salt),
@@ -29,6 +34,38 @@ namespace Computer_service_API.Controllers
                 numBytesRequested: 512 / 8
                 ));
 
+        }
+
+        private string genJWTToken(string login, TokenType type)
+        {
+            DateTime expireTime;
+
+            if (type == TokenType.Access)
+            {
+                expireTime = DateTime.UtcNow.AddMinutes(30);
+            }
+            else 
+            {
+                expireTime = DateTime.UtcNow.AddHours(1);
+            }
+
+            var handler = new JwtSecurityTokenHandler();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My absolutely secret key"));
+            var signCr = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+            var descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, login),
+                    new Claim(ClaimTypes.Role, "Client"),
+                    new Claim(ClaimTypes.UserData, type.ToString())
+                }),
+                Expires = expireTime,
+                SigningCredentials = signCr
+            };
+            var token = handler.CreateToken(descriptor);
+            return handler.WriteToken(token);
         }
 
         [HttpPost, Route("login")]
@@ -44,7 +81,7 @@ namespace Computer_service_API.Controllers
             {
                 return BadRequest("Invalid data");
             }
-            return Ok(new { Token = client.Token});
+            return Ok(new { Access = genJWTToken(client.Login,TokenType.Access), Refresh = genJWTToken(client.Login,TokenType.Refresh) });
         }
     }
 }

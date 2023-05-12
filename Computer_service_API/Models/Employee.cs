@@ -14,7 +14,6 @@ namespace Computer_service_API.Models
         public string? Password { get; set; } = null!;
         public int? Department { get; set; }
         public bool? Deleted { get; set; }
-        public string? Token { get; set; } = null!;
 
     }
 }

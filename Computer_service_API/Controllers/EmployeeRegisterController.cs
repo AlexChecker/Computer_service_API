@@ -34,8 +34,19 @@ namespace Computer_service_API.Controllers
 
         }
 
-        private string genJWTToken(string login)
+        private string genJWTToken(string login, TokenType type)
         {
+            DateTime expireTime;
+
+            if (type == TokenType.Access)
+            {
+                expireTime = DateTime.UtcNow.AddMinutes(30);
+            }
+            else
+            {
+                expireTime = DateTime.UtcNow.AddHours(1);
+            }
+
             var handler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My absolutely secret key"));
             var signCr = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
@@ -45,9 +56,10 @@ namespace Computer_service_API.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, login),
-                    new Claim(ClaimTypes.Role, "Employee")
+                    new Claim(ClaimTypes.Role, "Employee"),
+                    new Claim("token_type", type.ToString())
                 }),
-                Expires = DateTime.MaxValue,
+                Expires = expireTime,
                 SigningCredentials = signCr
             };
             var token = handler.CreateToken(descriptor);
@@ -74,9 +86,6 @@ namespace Computer_service_API.Controllers
             employee.SecondName = model.last_name;
             employee.ServiceId = Guid.NewGuid().ToString();
 
-
-
-            employee.Token = genJWTToken(employee.Login);
             employee.Deleted = false;
 
             _context.Employees.Add(employee);
@@ -92,7 +101,7 @@ namespace Computer_service_API.Controllers
             if (model == null) return BadRequest();
             Employee employee = await _context.Employees.FirstOrDefaultAsync(p => (p.Login == model.login) && (p.Password == saltPassword(model.password)));
             if (employee == null) return BadRequest();
-            return Ok(new {Token = employee.Token});
+            return Ok(new { Access = genJWTToken(employee.Login,TokenType.Access), Refresh = genJWTToken(employee.Login,TokenType.Refresh)});
         }
     }
 }

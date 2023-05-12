@@ -81,7 +81,6 @@ namespace Computer_service_API.Controllers
             newcl.Deleted = false;
             newcl.Password = saltPassword(model.password);
             newcl.Login = model.login;
-            newcl.Token = tokenStr;
             _context.Clients.Add(newcl);
             await _context.SaveChangesAsync();
             return Ok();

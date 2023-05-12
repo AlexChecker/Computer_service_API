@@ -82,11 +82,6 @@ namespace Computer_service_API.Models
                     .IsUnicode(false)
                     .HasColumnName("password");
 
-                entity.Property(e => e.Token)
-                    .HasMaxLength(250)
-                    .IsUnicode(false)
-                    .HasColumnName("token")
-                    .HasDefaultValueSql("('invalid_key')");
             });
 
             modelBuilder.Entity<Component>(entity =>
@@ -206,11 +201,6 @@ namespace Computer_service_API.Models
                     .IsUnicode(false)
                     .HasColumnName("second_name");
 
-                entity.Property(e => e.Token)
-                    .HasMaxLength(250)
-                    .IsUnicode(false)
-                    .HasColumnName("token")
-                    .HasDefaultValueSql("('invalid_key')");
 
             });
 

@@ -28,12 +28,7 @@ namespace AdministrationPanel.utils
         {
             using (var client = new HttpClient())
             {
-                Type l = typeof(List<>);
                 List<T> result = new List<T>();
-
-
-
-
                 var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7253/api/"+path);
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokens.access);
                 //request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue($"Authorization: Bearer {tokens.access}"));
@@ -44,6 +39,19 @@ namespace AdministrationPanel.utils
                 });
                     return result;
             }
+        }
+
+        public static async void updateTable<T>(T   updatingPiece, string path,string id)
+        {
+            using (var client = new HttpClient())
+            {
+                string jsoned = JsonConvert.SerializeObject(updatingPiece);
+                var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7253/api/{path}/{id}");
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokens.access);
+                request.Content = new StringContent(jsoned, Encoding.UTF8, "application/json");
+                await client.SendAsync(request);
+            }
+            
         }
     }
 }

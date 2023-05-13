@@ -50,6 +50,7 @@ namespace AdministrationPanel
                         Utils.tokens = JsonConvert.DeserializeObject<Utils.Tokens>(apiResponse);
                         AdminPanel panel = new AdminPanel();
                         panel.Show();
+                        this.Close();
                     }
 
                 }

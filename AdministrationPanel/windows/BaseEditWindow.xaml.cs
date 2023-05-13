@@ -25,7 +25,7 @@ namespace AdministrationPanel.windows
     {
         public string table = "";
         Type type;
-        
+        dynamic d;
         
         public BaseEditWindow()
         {
@@ -37,6 +37,7 @@ namespace AdministrationPanel.windows
             //data_grid.AutoGenerateColumns = false;
             data_grid.ItemsSource = await Utils.requestTable(tabl, table);
             type = typeof(T);
+            d = tabl;
         }
 
         private void data_grid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -128,7 +129,10 @@ namespace AdministrationPanel.windows
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
+            NewEntryWindow add = new NewEntryWindow();
+            add.tableName = table;
+            add.Show();
+            add.initEdit(d);
         }
     }
 }

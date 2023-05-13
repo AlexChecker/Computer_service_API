@@ -112,7 +112,7 @@ namespace AdministrationPanel.windows
                     win.Show();
                     win.Window_Loaded(new OrderHistory());
                     break;
-                case "Статусы заказов":
+                case "Статусы заказа":
                     tablePath = "OrderStatus";
                     win.Title = windowName;
                     win.table = tablePath;

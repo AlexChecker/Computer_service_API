@@ -53,5 +53,18 @@ namespace AdministrationPanel.utils
             }
             
         }
+
+        public static async void createEntry<T>(T entry, string path)
+        {
+            using (var client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(entry);
+                var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7253/api/{path}");
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokens.access);
+                request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                await client.SendAsync(request);
+
+            }
+        }
     }
 }

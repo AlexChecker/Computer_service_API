@@ -34,12 +34,50 @@ namespace AdministrationPanel
         {
             using (var httpClient = new HttpClient())
             {
+
+
                 var builder = new UriBuilder("https://localhost");
                 builder.Port = 7253;
                 builder.Path = "/api/EmployeeRegister/login";
                 var query = HttpUtility.ParseQueryString(builder.Query);
-                query["login"] = loginBox.Text;
-                query["password"] = passwordBox.Password;
+                    query["login"] = loginBox.Text;
+                    query["password"] = passwordBox.Password;
+                builder.Query = query.ToString();
+
+                using (var response = await httpClient.GetAsync(builder.ToString()))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        Utils.tokens = JsonConvert.DeserializeObject<Utils.Tokens>(apiResponse);
+                        AdminPanel panel = new AdminPanel();
+                        panel.Show();
+                        Utils.saveConnection(loginBox.Text, passwordBox.Password);
+                        this.Close();
+                    }
+
+                }
+            }
+        }
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Utils.loadWindowState(this);
+            Dictionary<string, string> cridentials = Utils.loadConnection();
+            if (cridentials == null) return;
+            using (var httpClient = new HttpClient())
+            {
+
+
+                var builder = new UriBuilder("https://localhost");
+                builder.Port = 7253;
+                builder.Path = "/api/EmployeeRegister/login";
+                var query = HttpUtility.ParseQueryString(builder.Query);
+
+                    query["login"] = cridentials["login"];
+                    query["password"] = cridentials["password"];
+
+
                 builder.Query = query.ToString();
 
                 using (var response = await httpClient.GetAsync(builder.ToString()))
@@ -55,11 +93,6 @@ namespace AdministrationPanel
 
                 }
             }
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Utils.loadWindowState(this);
         }
 
         private void Window_Closed(object sender, EventArgs e)

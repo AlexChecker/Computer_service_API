@@ -156,5 +156,13 @@ namespace AdministrationPanel.windows
             Utils.saveWindowState(Title, this.Left, this.Top);
 
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Utils.deleteConnection();
+            MainWindow win = new MainWindow();
+            win.Show();
+            this.Close();
+        }
     }
 }

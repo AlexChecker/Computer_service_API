@@ -52,6 +52,69 @@ namespace AdministrationPanel.utils
 
         }
 
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        public static void saveConnection(string login, string password)
+        {
+            Registry.CurrentUser.CreateSubKey("AdminTools");
+            var adminTools = Registry.CurrentUser.OpenSubKey("AdminTools", true);
+            adminTools.CreateSubKey("Cridentials");
+            var cridentials = adminTools.OpenSubKey("Cridentials", true);
+            cridentials.SetValue(Base64Encode("login"), Base64Encode(login));
+            cridentials.SetValue(Base64Encode("password"), Base64Encode(password));
+            cridentials.Close();
+            adminTools.Close();
+
+        }
+
+        public static void deleteConnection()
+        {
+
+            var adminTools = Registry.CurrentUser.OpenSubKey("AdminTools", true);
+            if (adminTools == null) return;
+            var cridentials = adminTools.OpenSubKey("Cridentials", true);
+            if (cridentials == null) return;
+            cridentials.DeleteValue(Base64Encode("login"));
+            cridentials.DeleteValue(Base64Encode("password"));
+            cridentials.Close();
+            adminTools.Close();
+        }
+
+        public static Dictionary<string, string> loadConnection()
+        {
+            Dictionary<string, string> result = new Dictionary<string, string>();
+
+            var adminTools = Registry.CurrentUser.OpenSubKey("AdminTools", true);
+            if (adminTools == null) return null;
+            var cridentials = adminTools.OpenSubKey("Cridentials", true);
+            if (cridentials == null) return null;
+            string login, password;
+            try
+            {
+                login = Base64Decode(cridentials.GetValue(Base64Encode("login")).ToString());
+                password = Base64Decode(cridentials.GetValue(Base64Encode("password")).ToString());
+            }
+            catch
+            {
+                return null;
+            }
+            result.Add("login", login);
+            result.Add("password", password);
+            cridentials.Close();
+            adminTools.Close();
+            return result;
+        }
+
         public static void loadWindowState(Window win)
         {
             var adminTools = Registry.CurrentUser.OpenSubKey("AdminTools", true);
@@ -67,6 +130,9 @@ namespace AdministrationPanel.utils
             if (x == null || y == null) return;
             win.Left = x;
             win.Top = y;
+            currentWindow.Close();
+            windowStates.Close();
+            adminTools.Close();
         }
 
         public static async Task<List<T>> requestTable<T>( T table,string path)

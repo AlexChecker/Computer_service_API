@@ -1,14 +1,8 @@
-﻿using AdministrationPanel.Models;
-using Newtonsoft.Json;
-using System;
-using System.CodeDom;
-using System.Collections;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace AdministrationPanel.utils
 {
@@ -64,6 +58,16 @@ namespace AdministrationPanel.utils
                 request.Content = new StringContent(json, Encoding.UTF8, "application/json");
                 await client.SendAsync(request);
 
+            }
+        }
+
+        public static async void deleteEntry(string id, string path)
+        {
+            using (var client = new HttpClient())
+            {
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7253/api/{path}/{id}");
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokens.access);
+                await client.SendAsync(request);
             }
         }
     }

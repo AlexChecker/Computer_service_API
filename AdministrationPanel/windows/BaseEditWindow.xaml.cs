@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,6 +36,7 @@ namespace AdministrationPanel.windows
         public async void Window_Loaded<T>(T tabl)
         {
             //data_grid.AutoGenerateColumns = false;
+            data_grid.ItemsSource = null;
             data_grid.ItemsSource = await Utils.requestTable(tabl, table);
             type = typeof(T);
             d = tabl;
@@ -125,6 +127,7 @@ namespace AdministrationPanel.windows
 
                     break;
             }
+            Window_Loaded(d);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -133,6 +136,74 @@ namespace AdministrationPanel.windows
             add.tableName = table;
             add.Show();
             add.initEdit(d);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var itemForDelete = data_grid.SelectedItem;
+
+            switch (table)
+            {
+                case "Acquisitions":
+                    Utils.deleteEntry((itemForDelete as Acquisition).AcqId.ToString(), table);
+                    break;
+                case "Clients":
+                    Utils.deleteEntry((itemForDelete as Client).Login, table);
+
+                    break;
+                case "Components":
+                    Utils.deleteEntry((itemForDelete as Component).ArticleNum, table);
+
+                    break;
+                case "ComponentTypes":
+                    Utils.deleteEntry((itemForDelete as ComponentType).TypeId.ToString(), table);
+
+                    break;
+                case "ComponentUsages":
+                    Utils.deleteEntry((itemForDelete as ComponentUsage).UsageId.ToString(), table);
+
+                    break;
+                case "Departments":
+                    Utils.deleteEntry((itemForDelete as Department).DepId.ToString(), table);
+
+                    break;
+                case "Employees":
+                    Utils.deleteEntry((itemForDelete as Employee).ServiceId, table);
+
+                    break;
+                case "Issues":
+                    Utils.deleteEntry((itemForDelete as Issue).IssId.ToString(), table);
+
+                    break;
+                case "IssueStatus":
+                    Utils.deleteEntry((itemForDelete as IssueStatus).StatusId.ToString(), table);
+
+                    break;
+                case "Orders":
+                    Utils.deleteEntry((itemForDelete as Order).Id.ToString(), table);
+
+                    break;
+                case "OrderHistories":
+                    Utils.deleteEntry((itemForDelete as OrderHistory).HistId.ToString(), table);
+
+                    break;
+                case "OrderStatus":
+                    Utils.deleteEntry((itemForDelete as OrderStatus).StatusId.ToString(), table);
+
+                    break;
+                case "OrderTypes":
+                    Utils.deleteEntry((itemForDelete as OrderType).Type.ToString(), table);
+                    break;
+                case "Reviews":
+                    Utils.deleteEntry((itemForDelete as Review).RevId.ToString(), table);
+
+                    break;
+                case "Vacancies":
+                    Utils.deleteEntry((itemForDelete as Vacancy).VacId.ToString(), table);
+
+                    break;
+            }
+            Window_Loaded(d);
         }
     }
 }

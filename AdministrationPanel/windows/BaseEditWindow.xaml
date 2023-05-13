@@ -13,6 +13,7 @@
         </ScrollViewer>
         <Button Content="Обновить" HorizontalAlignment="Center" Margin="0,650,0,0" VerticalAlignment="Top" Width="800" Click="Button_Click"/>
         <Button Content="Создать" HorizontalAlignment="Center" Margin="0,670,0,0" VerticalAlignment="Top" Width="800" Click="Button_Click_1"/>
+        <Button Content="Удалить" HorizontalAlignment="Center" Margin="0,690,0,0" VerticalAlignment="Top" Width="800" Click="Button_Click_2"/>
 
 
     </Grid>

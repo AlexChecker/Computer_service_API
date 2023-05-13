@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdministrationPanel.windows"
         mc:Ignorable="d"
-        Title="BaseEditWindow" Height="796" Width="800" ResizeMode="CanMinimize" >
+        Title="BaseEditWindow" Height="796" Width="800" ResizeMode="CanMinimize" Loaded="Window_Loaded_1" Closed="Window_Closed" >
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" Margin="0,0,0,145" Height="650">
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" Margin="0,0,0,145" Height="650" >
             <DataGrid Name="data_grid" MouseDoubleClick="data_grid_MouseDoubleClick" VerticalAlignment="Top" />
 
         </ScrollViewer>

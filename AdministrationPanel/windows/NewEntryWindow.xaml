@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdministrationPanel.windows"
         mc:Ignorable="d"
-        Title="NewEntryWindow" Width="260" SizeToContent="Height">
+        Title="NewEntryWindow" Width="260" SizeToContent="Height" Loaded="Window_Loaded" Closed="Window_Closed" >
     <StackPanel Name="Grid">
         <Button Height="20" Content="Добавить" Click="Button_Click" />
     </StackPanel>

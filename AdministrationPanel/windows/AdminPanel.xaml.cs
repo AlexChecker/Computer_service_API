@@ -1,4 +1,5 @@
 ﻿using AdministrationPanel.Models;
+using AdministrationPanel.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,6 +143,17 @@ namespace AdministrationPanel.windows
                     break;
             }
             
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Utils.loadWindowState(this);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Utils.saveWindowState(Title, this.Left, this.Top);
 
         }
     }

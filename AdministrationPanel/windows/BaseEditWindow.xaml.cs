@@ -205,5 +205,26 @@ namespace AdministrationPanel.windows
             }
             Window_Loaded(d);
         }
+
+        private void data_grid_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            Utils.loadWindowState(this);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Utils.saveWindowState(Title, this.Left, this.Top);
+
+        }
     }
 }

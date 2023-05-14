@@ -26,7 +26,7 @@ namespace Computer_service_API.Controllers
 
         // GET: api/Employees
         [HttpGet,Authorize(Roles = "Employee")]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees(int page)
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees(int page,bool showdeleted = false)
         {
           if (_context.Employees == null)
           {
@@ -37,7 +37,7 @@ namespace Computer_service_API.Controllers
                 List<Employee> clients = new List<Employee>();
                 foreach (var c in await _context.Employees.ToListAsync())
                 {
-                    if (c.Deleted == false) clients.Add(c);
+                    if (c.Deleted == showdeleted) clients.Add(c);
                 }
                 return clients;
             }
@@ -51,7 +51,7 @@ namespace Computer_service_API.Controllers
                 {
                     try
                     {
-                        if (_context.Employees.ToArray()[i].Deleted == false)
+                        if (_context.Employees.ToArray()[i].Deleted == showdeleted)
                             acs.Add(_context.Employees.ToArray()[i]);
                     }
                     catch
@@ -62,6 +62,8 @@ namespace Computer_service_API.Controllers
                 return acs;
             }
         }
+
+
 
         // GET: api/Employees/5
         [HttpGet("{id}"), Authorize(Roles = "Employee")]
@@ -179,7 +181,7 @@ namespace Computer_service_API.Controllers
         {
             foreach (var login in logins)
             {
-                var user = await _context.Clients.FirstOrDefaultAsync(p => (p.Login == login));
+                var user = await _context.Employees.FirstOrDefaultAsync(p => (p.Login == login));
                 if (user != null) user.Deleted = false;
             }
 
@@ -191,7 +193,7 @@ namespace Computer_service_API.Controllers
         public async Task<IActionResult> RestoreEmployee(string login)
         {
 
-            var employee = await _context.Employees.FindAsync(login);
+            var employee = await _context.Employees.FirstOrDefaultAsync(p => (p.Login == login));
             if (employee != null)
             {
                 employee.Deleted = false;

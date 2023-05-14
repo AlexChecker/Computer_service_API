@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdministrationPanel.windows"
         mc:Ignorable="d"
-        Title="AdminPanel" Height="450" Width="800" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="AdminPanel" Height="450" Width="800" ResizeMode="CanMinimize" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
         <GroupBox Header="Таблицы" Margin="0,0,374,246" >
             <Grid>
@@ -27,6 +27,12 @@
             </Grid>
         </GroupBox>
         <Button Content="Выйти из системы" HorizontalAlignment="Left" Margin="431,10,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <GroupBox Header="GroupBox" Margin="0,165,457,180">
+            <Grid>
+                <Button Content="Восстановить сотрудников" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="Button_Click_2"/>
+                <Button Content="Восстановить клиентов" HorizontalAlignment="Left" Margin="167,10,0,0" VerticalAlignment="Top" Click="Button_Click_3"/>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Window>

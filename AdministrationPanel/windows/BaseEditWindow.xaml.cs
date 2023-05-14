@@ -25,7 +25,7 @@ namespace AdministrationPanel.windows
     public partial class BaseEditWindow : Window
     {
         public string table = "";
-        Type type;
+        private int page = 0;
         dynamic d;
         
         public BaseEditWindow()
@@ -37,25 +37,11 @@ namespace AdministrationPanel.windows
         {
             //data_grid.AutoGenerateColumns = false;
             data_grid.ItemsSource = null;
-            data_grid.ItemsSource = await Utils.requestTable(tabl, table);
-            type = typeof(T);
+            data_grid.ItemsSource = await Utils.requestTable(tabl, table,page);
             d = tabl;
         }
 
-        private void data_grid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //if (data_grid.SelectedIndex == -1)
-            //{
-            //    MessageBox.Show("Выберите запись для изменения!");
-            //    return;
-            //}
-            //
-            ////DataRowView view = (DataRowView)data_grid.SelectedItem;
-            //int index = data_grid.CurrentCell.Column.DisplayIndex;
-            //
-            ////string cellvalue = view.Row.ItemArray[index].ToString();
-            ////data_grid.Columns[index];
-        }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -219,12 +205,56 @@ namespace AdministrationPanel.windows
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             Utils.loadWindowState(this);
+            if (table == "Employees" || table == "Clients") deleteMany.IsEnabled = true;
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             Utils.saveWindowState(Title, this.Left, this.Top);
 
+        }
+
+        private void page_forward_Click(object sender, RoutedEventArgs e)
+        {
+            page++;
+            pageLabel.Content = page.ToString();
+            Window_Loaded(d);
+
+        }
+
+        private void page_back_Click(object sender, RoutedEventArgs e)
+        {
+            page--;
+            if (page < 0) page = 0;
+            pageLabel.Content = page.ToString();
+            Window_Loaded(d);
+
+        }
+
+        private void deleteMany_Click(object sender, RoutedEventArgs e)
+        {
+            var deleteItems = data_grid.SelectedItems;
+            if (deleteItems.Count == 0) return;
+            List<string> strs = new List<string>();
+            switch (table)
+            {
+                case "Employees":
+                    foreach (var emp in deleteItems)
+                    {
+                        strs.Add((emp as Employee).Login);
+                    }
+                    break;
+                case "Clients":
+                    foreach (var emp in deleteItems)
+                    {
+                        strs.Add((emp as Client).Login);
+                    }
+                    break;
+            }
+
+            Utils.deleteMultiple(strs.ToArray(), table);
+
+            Window_Loaded(d);
         }
     }
 }

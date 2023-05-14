@@ -23,7 +23,7 @@ namespace Computer_service_API.Controllers
 
         // GET: api/Clients
         [HttpGet,Authorize(Roles = "Employee")]
-        public async Task<ActionResult<IEnumerable<Client>>> GetClients(int page)
+        public async Task<ActionResult<IEnumerable<Client>>> GetClients(int page,bool showdeleted = false)
         {
           if (_context.Clients == null)
           {
@@ -35,7 +35,7 @@ namespace Computer_service_API.Controllers
                 List<Client> clients = new List<Client>();
                 foreach (var c in await _context.Clients.ToListAsync())
                 {
-                    if (c.Deleted == false) clients.Add(c);
+                    if (c.Deleted == showdeleted) clients.Add(c);
                 }
                 return clients;
             }
@@ -49,7 +49,7 @@ namespace Computer_service_API.Controllers
                 {
                     try
                     {
-                        if (_context.Clients.ToArray()[i].Deleted == false)
+                        if (_context.Clients.ToArray()[i].Deleted == showdeleted)
                             acs.Add(_context.Clients.ToArray()[i]);
                     }
                     catch
@@ -191,7 +191,7 @@ namespace Computer_service_API.Controllers
         [HttpPost, Route("restore"), Authorize]
         public async Task<IActionResult> RestoreClient(string login)
         {
-            Client client = await _context.Clients.FindAsync(login);
+            Client client = await _context.Clients.FirstOrDefaultAsync(p => (p.Login == login));
             if (client != null)
             {
                 client.Deleted = false;

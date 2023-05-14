@@ -135,12 +135,16 @@ namespace AdministrationPanel.utils
             adminTools.Close();
         }
 
-        public static async Task<List<T>> requestTable<T>( T table,string path)
+        public static async Task<List<T>> requestTable<T>( T table,string path,int page =0,bool showDeleted = false)
         {
             using (var client = new HttpClient())
             {
                 List<T> result = new List<T>();
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7253/api/"+path);
+                HttpRequestMessage request;
+                if(showDeleted)
+                    request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7253/api/{path}?page={page}&showdeleted=true");
+                else
+                    request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7253/api/{path}?page={page}");
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokens.access);
                 //request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue($"Authorization: Bearer {tokens.access}"));
                 await client.SendAsync(request).ContinueWith(async (resp) => 
@@ -165,6 +169,8 @@ namespace AdministrationPanel.utils
             
         }
 
+
+
         public static async void createEntry<T>(T entry, string path)
         {
             using (var client = new HttpClient())
@@ -184,6 +190,18 @@ namespace AdministrationPanel.utils
             {
                 var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7253/api/{path}/{id}");
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokens.access);
+                await client.SendAsync(request);
+            }
+        }
+
+        public static async void deleteMultiple(string[] ids, string table)
+        {
+            string json = JsonConvert.SerializeObject(ids);
+            using (var client = new HttpClient())
+            {
+                var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7253/api/{table}/multiple/delete");
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokens.access);
+                request.Content = new StringContent(json, Encoding.UTF8, "application/json");
                 await client.SendAsync(request);
             }
         }

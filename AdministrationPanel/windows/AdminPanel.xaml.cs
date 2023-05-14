@@ -164,5 +164,17 @@ namespace AdministrationPanel.windows
             win.Show();
             this.Close();
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            RestoreWindow rest = new RestoreWindow("Employees", new Employee());
+            rest.Show();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            RestoreWindow rest = new RestoreWindow("Clients", new Client());
+            rest.Show();
+        }
     }
 }

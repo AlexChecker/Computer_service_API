@@ -68,7 +68,7 @@ namespace Computer_service_API.Controllers
             return handler.WriteToken(token);
         }
 
-        [HttpPost, Route("login")]
+        [HttpGet, Route("login")]
         public async Task<ActionResult<string>> Login(RegisterClientModel model) 
         {
             if (model == null)
